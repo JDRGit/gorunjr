@@ -21,16 +21,18 @@ function App() {
               temperature: response.data.main.temp,
               humidity: response.data.main.humidity,
               windSpeed: response.data.wind.speed,
-              precipitation: response.data.rain && response.data.rain['1h'] ? response.data.rain['1h'] : 0 
+              precipitation:
+                response.data.rain && response.data.rain["1h"]
+                  ? response.data.rain["1h"]
+                  : 0,
             };
-          
+
             const index = calculateGoRunIndex(weatherData);
             setGoRunIndex(index);
-          
+
             // Set the "feels like" temperature
             setFeelsLikeTemperature(response.data.main.feels_like);
           });
-          
         },
         (error) => {
           console.error("Error obtaining geolocation", error);
@@ -44,13 +46,14 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div>
       <h1>GoRun Index</h1>
       {goRunIndex ? (
-        <div>
+        <>
           <p>The current GoRun Index is: {goRunIndex}</p>
+          <p>Meaning 0-2: Poor 3-5: Fair 6-8: Good 9-10: Excellent</p>
           <p>It feels like {feelsLikeTemperature}°F outside.</p>
-        </div>
+        </>
       ) : (
         <p>Loading...</p>
       )}
